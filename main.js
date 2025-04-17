@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
     const app = document.getElementById("app");
-
-    // Cards Data inside the elements array
     const elements = [
         {
             tagName: "section",
@@ -90,7 +88,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     ];
 
-    // Function to create elements
     const createNode = (element) => {
         const node = document.createElement(element.tagName);
         if (element.className)

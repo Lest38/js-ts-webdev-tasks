@@ -1,6 +1,6 @@
 # SDC JavaScript/TypeScript Shop.co Website
 
-Your team task is to implement Frontend and Backend for E-Commerce Website
+Your task is to implement Frontend and Backend for E-Commerce Website
 
 [[_TOC_]]
 
@@ -30,7 +30,6 @@ Your team task is to implement Frontend and Backend for E-Commerce Website
   - https://www.npmjs.com/package/navigo
   - https://npmjs.com/package/yourrouter
   - custom implementation
-- Redux store if it's needed to share data between pages or different components (NOT REACT!!!) for example `userId`, `cartId`
 - localStorage/sessionStorage to save data to prevent it lost after page refresh https://learn.javascript.ru/localstorage
 - Fetch API https://learn.javascript.ru/fetch-api or Axios https://axios-http.com/ for communication with Backend
 
@@ -47,7 +46,6 @@ Alternativly all screens could be found in `frontend/design` folder
 - Product Detail Page
 - Cart
 - Checkout
-- Payment
 - Order confirmation
 
 #### Homepage
@@ -96,31 +94,17 @@ Alternativly all screens could be found in `frontend/design` folder
 ### Checkout Page
 
 - URL: `/checkout/:cartId` where `cartId` is the dynamic id of the cart i.e. `cart/5`, `cart/1`
-- If user is logged in, then his data should be populated from his user account (Backend call https://dummyjson.com/docs/users)
 - Form should contain validation with the following rules:
   - `firstName` - type string, min length 3, max length 32
   - `lastName` - type string, min length 3, max length 32
   - `maidenName` - type string, min length 3, max length 32
   - `email` - type mail, standard validation for email address
   - `phone` - type string, but validation for mobile numbers (contains + as the first symbol, then numbers divided into groups separated by one space symbol), example of a valid number is `+63 739 292 7942`
-  - `address` - type string, example `1745 T Street Southeast`
+  - `address` - type string, pattern (first 4 symbols are number, one space, string of any length), example `1745 T Street Southeast`
   - `city` - type string, example `Washington`
   - `postalCode` - type string, example `20020`
 - If any of the fields is invalid, then input field should contain a red thin border, if valid then the border should be as on the provided design (light grey)
 - `Go to Payment` button opens a new page `Payment`
-
-### Payment Page
-
-- URL: `/payment/:cartId` where `cartId` is the dynamic id of the cart i.e. `cart/5`, `cart/1`
-- If user is logged in, then his data should be populated from his user account (Backend call https://dummyjson.com/docs/users) from an object `bank`
-- Form should contain validation with the following rules:
-  - `cardNumber` - type string, min length 3, max length 32. Inside an input (on UI) should be displayed with a space symbol after each group of 4 digits and the last group consists of 5 digits or 4 digits (it depens on the cart provided) (examples: `5038 0955 2042 20685` (maestro) or `3586 0829 8252 6703` (jsb)). Inside the model (Backend, any inner objects) should be stored without any spaces (examples: `50380955204220685` or `3586082982526703`).
-  - `cardExpire` - type string, first two numbers (with leading zeros for month less than 10), then a symbol `/`, then two numbers of year. Examples: `02/23`, `10/23`
-  - `iban` - type string, first two characters are `A-Z` letters, then numbers and spaces. Example: `AT24 1095 9625 1434 9703`, `NO17 0695 2754 967`.
-- If any of the fields is invalid, then input field should contain a red thin border, if valid then the border should be as on the provided design (light grey)
-- `Place an order` button:
-  - Delete an existing card by it cartId (Backend call https://dummyjson.com/docs/carts)
-  - Opens a new page `Order Confirmation`
 
 ### Order Confirmation
 
@@ -144,13 +128,13 @@ Alternativly all screens could be found in `frontend/design` folder
 
 ## Backend
 
-Use https://dummyjson.com/docs
+Use https://dummyjson.com/docs or create your own with https://strapi.io/
 
 ## Evaluation criteria - max 10 points
 
 ### Vite + TypeScript + ESLint + Prettier - 1 point
 
-### Responsive design + Router + Redux - 2 point
+### Responsive design + Router - 2 point
 
 ### Render of pages (HTML, CSS, TS) - maximum 7 points
 
@@ -159,5 +143,4 @@ Use https://dummyjson.com/docs
 - Product Detail Page <b>1 points</b>
 - Cart <b>1 points</b>
 - Checkout <b>1 points</b>
-- Payment <b>1 points</b>
 - Order confirmation <b>1 points</b>

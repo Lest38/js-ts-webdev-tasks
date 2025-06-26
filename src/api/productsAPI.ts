@@ -3,18 +3,6 @@ import type {Product, Category} from "./types";
 const API_URL = 'https://dummyjson.com';
 
 
-export async function getProducts(params: { limit?: number } = {}): Promise<Product[]> {
-    const url = new URL(`${API_URL}/products`);
-
-    if (params.limit) {
-        url.searchParams.append('limit', params.limit.toString());
-    }
-
-    const response = await fetch(url.toString());
-    const data = await response.json();
-    return data.products;
-}
-
 export async function getCategories(): Promise<Category[]> {
     try {
         const response = await fetch('https://dummyjson.com/products/categories');

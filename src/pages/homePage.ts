@@ -5,7 +5,6 @@ import { renderStats } from '../components/stats';
 import { renderNewsletter } from '../components/newsletter';
 import { renderCategoryCard } from '../components/categoryCard';
 import { getCategories } from '../api/productsAPI';
-import {initMobileMenu} from "../components/initMobileMenu.ts";
 
 export async function renderHomePage(): Promise<PageStructure> {
     const categories = await getCategories();
@@ -19,7 +18,6 @@ export async function renderHomePage(): Promise<PageStructure> {
     hero.innerHTML = `
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-1 md:grid-cols-2 items-center">
-        <!-- Левая часть -->
         <div class="max-w-xl pr-4 md:pr-12">
           <h1 class="font-poppins font-bold text-[32px] md:text-[64px] leading-tight mb-6">
             FIND <u>ANYTHING</u> THAT MATCHES YOUR STYLE
@@ -35,15 +33,12 @@ export async function renderHomePage(): Promise<PageStructure> {
           ${renderStats().outerHTML}
         </div>
 
-        <!-- Правая часть -->
         <div class="hidden md:block h-[400px] bg-cover bg-right bg-no-repeat rounded-lg">
-          <!-- Просто фон -->
         </div>
       </div>
     </div>
   `;
     main.appendChild(hero);
-    initMobileMenu('burger-btn')
     main.appendChild(renderBrandsSection());
     main.appendChild(renderCategoriesSection(categories));
     main.appendChild(renderNewsletter());

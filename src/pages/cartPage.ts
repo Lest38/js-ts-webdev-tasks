@@ -42,6 +42,7 @@ export async function renderCartPage(): Promise<PageStructure> {
     section.appendChild(summary);
     main.appendChild(section);
 
+
     return {
         header: renderHeader(),
         main,

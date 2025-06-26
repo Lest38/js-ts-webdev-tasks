@@ -1,5 +1,3 @@
-import { createMobileMenu } from './mobileMenu';
-
 export function initMobileMenu(burgerBtnId: string) {
     const mobileMenu = createMobileMenu();
     document.body.appendChild(mobileMenu);

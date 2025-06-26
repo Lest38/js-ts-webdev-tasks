@@ -45,7 +45,6 @@ export async function renderCategoryPage(categoryName: string): Promise<PageStru
                 <span class="text-black capitalize">${categoryName.replace('-', ' ')}</span>
             </div>
 
-            <!-- mobile filter toggle -->
             <div class="flex justify-between items-center md:hidden mb-4">
                 <h2 class="text-xl font-bold capitalize">${categoryName.replace('-', ' ')}</h2>
                 <button id="filter-toggle" class="p-2 border rounded-md">

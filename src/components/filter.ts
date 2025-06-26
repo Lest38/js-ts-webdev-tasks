@@ -1,4 +1,4 @@
-import type { Product } from '../api/types';
+import type {Product} from "../api/types.ts";
 
 export function renderFilterSidebar(products: Product[], activeSort: 'asc' | 'desc'): string {
     const brands = Array.from(
@@ -13,6 +13,10 @@ export function renderFilterSidebar(products: Product[], activeSort: 'asc' | 'de
         </li>
     `).join('');
 
+    const prices = products.map(p => p.price);
+    const minPrice = Math.min(...prices);
+    const maxPrice = Math.max(...prices);
+
     return `
         <div class="bg-white border border-[#E0E0E0] rounded-[20px] p-[20px] w-[295px] sticky top-4" id="filter-sidebar">
             <div class="flex items-center justify-between mb-4">
@@ -25,6 +29,7 @@ export function renderFilterSidebar(products: Product[], activeSort: 'asc' | 'de
             </div>
 
             <hr class="border border-[#0000001A] w-full mb-6" />
+
             ${brands.length > 0 ? `
             <div class="mb-6">
                 <h4 class="font-bold text-[20px] font-[Rubik] mb-4">Sort</h4>
@@ -43,7 +48,41 @@ export function renderFilterSidebar(products: Product[], activeSort: 'asc' | 'de
                     </li>
                 </ul>
             </div>
-            `: ''}
+            ` : ''}
+
+            <hr class="border border-[#0000001A] w-full mb-6" />
+
+            <div class="mb-6">
+  <h4 class="font-bold text-[20px] font-[Rubik] mb-6">Price</h4>
+  <div class="flex flex-col gap-4">
+    <div>
+      <label for="price-min" class="block text-[14px] font-medium mb-1">Minimum price</label>
+      <input
+        id="price-min"
+        type="number"
+        min="0"
+        step="1"
+        value="${minPrice}"
+        class="w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-700 placeholder-gray-400 focus:border-black focus:ring-1 focus:ring-black transition"
+        placeholder="0"
+      />
+    </div>
+    <div>
+      <label for="price-max" class="block text-[14px] font-medium mb-1">Maximum price</label>
+      <input
+        id="price-max"
+        type="number"
+        min="0"
+        step="1"
+        value="${maxPrice}"
+        class="w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-700 placeholder-gray-400 focus:border-black focus:ring-1 focus:ring-black transition"
+        placeholder="0"
+      />
+    </div>
+  </div>
+</div>
+
+
 
             <hr class="border border-[#0000001A] w-full mb-6" />
 

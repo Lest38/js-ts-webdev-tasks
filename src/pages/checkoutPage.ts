@@ -108,11 +108,39 @@ export function renderCheckoutPage(): PageStructure {
     const summaryContent = document.createElement('div');
     summaryContent.className = 'flex flex-col gap-2 text-sm mb-6';
 
+
+    const cart = JSON.parse(localStorage.getItem('cart') || '{"products": []}');
+    let subtotalAmount = 0;
+    let discountAmount = 0;
+
+    if (cart.products?.length) {
+        cart.products.forEach((product: any) => {
+            const productTotal = product.price * product.quantity;
+            const productDiscount = productTotal * (product.discountPercentage / 100);
+
+            subtotalAmount += productTotal;
+            discountAmount += productDiscount;
+        });
+    }
+
+    const totalAmount = subtotalAmount - discountAmount;
+
+
     summaryContent.innerHTML = `
-        <div class="flex justify-between"><span>Subtotal</span><span class="font-semibold">$565</span></div>
-        <div class="flex justify-between"><span>Discount (-20%)</span><span class="text-red-500 font-semibold">-$113</span></div>
-        <div class="flex justify-between mt-2 border-t pt-2"><span class="font-semibold">Total</span><span class="font-semibold">$467</span></div>
-    `;
+    <div class="flex justify-between">
+        <span>Subtotal</span>
+        <span class="font-semibold">$${subtotalAmount.toFixed(2)}</span>
+    </div>
+    <div class="flex justify-between">
+        <span>Discount</span>
+        <span class="text-red-500 font-semibold">-$${discountAmount.toFixed(2)}</span>
+    </div>
+    <div class="flex justify-between mt-2 border-t pt-2">
+        <span class="font-semibold">Total</span>
+        <span class="font-semibold">$${totalAmount.toFixed(2)}</span>
+    </div>
+`;
+
 
     const paymentBtn = document.createElement('button');
     paymentBtn.className = 'w-full bg-black text-white py-3 rounded-full font-medium hover:bg-gray-800 transition flex items-center justify-center gap-2';

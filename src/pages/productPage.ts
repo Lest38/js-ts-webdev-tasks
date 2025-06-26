@@ -8,7 +8,11 @@ import type { PageStructure } from '../api/types';
 export async function renderProductPage(productId: string): Promise<PageStructure> {
     const product = await getProductById(productId);
     const images = [product.thumbnail, ...product.images.slice(0, 3)];
-
+    const ratingStars = Array(5).fill(0).map((_, i) =>
+        i < Math.round(product.rating)
+            ? '<span class="text-yellow-400 text-sm leading-none">★</span>'
+            : '<span class="text-gray-300 text-sm leading-none">★</span>'
+    ).join('');
     const main = document.createElement('main');
     main.className = 'flex-grow pt-8';
 
@@ -20,7 +24,6 @@ export async function renderProductPage(productId: string): Promise<PageStructur
                 <span>${product.title}</span>
             </nav>
             <div class="flex flex-col md:flex-row gap-8">
-                <!-- Left Image Gallery -->
                 <div class="w-full md:w-1/2 flex flex-col md:flex-row gap-4">
                     <div class="flex md:flex-col gap-2 order-2 md:order-1">
                         ${images.map((src, i) => `
@@ -36,7 +39,7 @@ export async function renderProductPage(productId: string): Promise<PageStructur
                 <div class="w-full md:w-1/2 space-y-4">
                     <h1 class="text-3xl font-bold">${product.title}</h1>
                     <div class="flex items-center gap-2">
-                        <div class="text-yellow-400 text-lg">★★★★★</div>
+                        <div class="text-yellow-400 text-lg">${ratingStars}</div>
                         <div class="text-sm text-gray-600">${product.rating.toFixed(1)}/5</div>
                     </div>
 

@@ -40,9 +40,7 @@ export async function getCart(): Promise<Cart | null> {
 
     const res = await fetch('https://dummyjson.com/carts');
     const data = await res.json();
-    const randomCart = data.carts[Math.floor(Math.random() * data.carts.length)];
-
-    cart = randomCart;
+    cart = data.carts[Math.floor(Math.random() * data.carts.length)];
     saveCartToStorage();
 
     return cart;
@@ -58,7 +56,6 @@ export async function addToCart(productId: number, quantity: number = 1): Promis
         existing.total = +(existing.price * existing.quantity).toFixed(2);
         existing.discountedTotal = +(existing.total * (1 - existing.discountPercentage / 100)).toFixed(2);
     } else {
-        // Здесь можно сделать fetch на `https://dummyjson.com/products/${productId}`, чтобы взять цену и скидку
         const res = await fetch(`https://dummyjson.com/products/${productId}`);
         const product = await res.json();
 
@@ -76,7 +73,6 @@ export async function addToCart(productId: number, quantity: number = 1): Promis
         cart!.products.push(newProduct);
     }
 
-    // Обновить totals
     cart!.total = cart!.products.reduce((sum, p) => sum + p.total, 0);
     cart!.discountedTotal = cart!.products.reduce((sum, p) => sum + p.discountedTotal, 0);
     cart!.totalProducts = cart!.products.length;

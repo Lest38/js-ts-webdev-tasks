@@ -34,8 +34,8 @@ export function renderFooter(): HTMLElement {
                     Shop.co © 2000–2023, All Rights Reserved
                 </div>
                 <div class="flex space-x-4">
-                    ${['VISA', 'PayPal', 'G Pay'].map(payment => `
-                        <span class="text-gray-400">${payment}</span>
+                    ${[0, 1, 2, 3, 4].map(i => `
+                        <img src="/images/Badge${i === 0 ? '' : '-' + i}.png" alt="Payment Badge ${i}" width="46" height="30" class="object-contain"/>
                     `).join('')}
                 </div>
             </div>

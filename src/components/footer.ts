@@ -4,8 +4,8 @@ export function renderFooter(): HTMLElement {
 
     footer.innerHTML = `
         <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-[108px]">
-                <div>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-[108px]">
+                <div class="col-span-2 md:col-span-1">
                     <h3 class="text-2xl font-bold mb-4">SHOP.CO</h3>
                     <p class="text-gray-400">
                         We have clothes that suit your style and which you're proud to wear. From women to men.
@@ -30,10 +30,10 @@ export function renderFooter(): HTMLElement {
             </div>
 
             <div class="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <div class="text-gray-400 mb-4 md:mb-0">
+                <div class="text-gray-400 mb-4 md:mb-0 text-center md:text-left">
                     Shop.co © 2000–2023, All Rights Reserved
                 </div>
-                <div class="flex space-x-4">
+                <div class="flex space-x-4 justify-center md:justify-start">
                     ${[0, 1, 2, 3, 4].map(i => `
                         <img src="/images/Badge${i === 0 ? '' : '-' + i}.png" alt="Payment Badge ${i}" width="46" height="30" class="object-contain"/>
                     `).join('')}

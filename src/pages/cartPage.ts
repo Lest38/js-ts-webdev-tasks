@@ -6,6 +6,7 @@ import {
 } from '../api/cartAPI';
 import { renderHeader } from '../components/header';
 import { renderFooter } from '../components/footer';
+import {renderNewsletter} from "../components/newsletter.ts";
 
 export async function renderCartPage(): Promise<PageStructure> {
     const cart = await getCart();
@@ -41,6 +42,7 @@ export async function renderCartPage(): Promise<PageStructure> {
     section.appendChild(itemsWrapper);
     section.appendChild(summary);
     main.appendChild(section);
+    main.appendChild(renderNewsletter());
 
 
     return {

@@ -4,6 +4,7 @@ import { renderProductCard } from '../components/productCard';
 import { renderFilterSidebar } from '../components/filter';
 import { renderFooter } from '../components/footer';
 import type { PageStructure } from "../api/types.ts";
+import {renderNewsletter} from "../components/newsletter.ts";
 
 export async function renderCategoryPage(categoryName: string): Promise<PageStructure> {
     const products = await getProductsByCategory(categoryName);
@@ -156,7 +157,7 @@ export async function renderCategoryPage(categoryName: string): Promise<PageStru
             });
         });
     });
-
+    main.appendChild(renderNewsletter());
     return {
         header: renderHeader(),
         main: main,

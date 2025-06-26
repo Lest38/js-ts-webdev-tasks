@@ -4,12 +4,12 @@ export function renderNewsletter(): HTMLElement {
 
     newsletter.innerHTML = `
         <div class="container mx-auto px-4 flex justify-center">
-            <div class="w-[1240px] h-[177px] bg-black rounded-[20px] px-[64px] py-[36px] flex items-center justify-between gap-4">
-                <h2 class="text-xl md:text-2xl font-bold text-white max-w-[50%]">
+            <div class="w-full max-w-[1240px] bg-black rounded-[20px] px-6 md:px-[64px] py-[36px] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                <h2 class="text-xl md:text-2xl font-bold text-white md:max-w-[50%]">
                     STAY UPTO DATE ABOUT OUR LATEST OFFERS
                 </h2>
-                <div class="flex flex-col gap-[12px]">
-                    <div class="relative w-[349px] h-[48px]">
+                <div class="flex flex-col gap-[12px] w-full md:w-auto">
+                    <div class="relative w-full md:w-[349px] h-[48px]">
                         <span class="absolute left-4 top-1/2 transform -translate-y-1/2 pointer-events-none">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -18,9 +18,9 @@ export function renderNewsletter(): HTMLElement {
                             </svg>
                         </span>
                         <input type="email" placeholder="Enter your email address"
-                            class="w-full h-full pl-[44px] pr-[16px] py-[12px] rounded-[62px] border border-gray-300 focus:outline-none focus:ring-1 focus:ring-black"/>
+                            class="w-full h-full pl-[44px] pr-[16px] py-[12px] rounded-[62px] border border-gray-300 focus:outline-none focus:ring-1 focus:ring-white"/>
                     </div>
-                    <button class="w-[349px] h-[48px] rounded-[62px] px-[16px] py-[12px] bg-white text-black font-medium hover:bg-gray-800 hover:text-white transition">
+                    <button class="w-full md:w-[349px] h-[48px] rounded-[62px] px-[16px] py-[12px] bg-white text-black font-medium hover:bg-gray-800 hover:text-white transition">
                         Subscribe to Newsletter
                     </button>
                 </div>

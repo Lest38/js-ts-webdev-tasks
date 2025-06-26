@@ -95,8 +95,12 @@ export async function renderCategoryPage(categoryName: string): Promise<PageStru
 
         const brandButtons = main.querySelectorAll('.brand-filter');
         brandButtons.forEach(btn => btn.classList.remove('font-bold', 'text-black'));
-        (main.querySelector('#price-min') as HTMLInputElement).value = '0';
-        (main.querySelector('#price-max') as HTMLInputElement).value = `${Number.MAX_VALUE}`;
+        const prices = products.map(p => p.price);
+        const minPrice = Math.min(...prices);
+        const maxPrice = Math.max(...prices);
+
+        (main.querySelector('#price-min') as HTMLInputElement).value = `${minPrice}`;
+        (main.querySelector('#price-max') as HTMLInputElement).value = `${maxPrice}`;
     };
 
     setTimeout(() => {

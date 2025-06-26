@@ -4,6 +4,8 @@ import type { PageStructure } from './src/api/types.ts';
 import {getCategories} from "./src/api/productsAPI.ts";
 import { renderProductPage } from './src/pages/productPage.ts';
 import { renderCartPage } from './src/pages/cartPage.ts';
+import { renderCheckoutPage } from './src/pages/checkoutPage.ts';
+import { renderConfirmationPage } from './src/pages/confirmationPage.ts';
 
 
 export function initRouter() {
@@ -29,6 +31,14 @@ export function initRouter() {
             else if (route === '/cart') {
                 page = await renderCartPage();
             }
+
+            else if (route.startsWith('/checkout')) {
+                page = await renderCheckoutPage();
+            }
+            else if (route === '/confirmation') {
+                page = await renderConfirmationPage();
+            }
+
             else {
                 app.innerHTML = '<h1 class="text-center py-20 text-4xl">Page Not Found</h1>';
                 return;
@@ -39,7 +49,6 @@ export function initRouter() {
             app.appendChild(page.main);
             if (page.footer) app.appendChild(page.footer);
 
-            // Обработка навигации
             document.querySelectorAll('[data-navigo]').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();

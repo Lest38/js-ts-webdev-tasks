@@ -114,7 +114,7 @@ function renderOrderSummary(cart: Cart): HTMLElement {
     checkoutBtn.className = 'mt-6 w-full bg-black text-white py-3 rounded-full font-medium hover:bg-gray-800 transition';
     checkoutBtn.innerHTML = 'Go to Checkout &rarr;';
     checkoutBtn.onclick = () => {
-        window.location.href = '/checkout';
+        window.location.href = `/checkout/${cart.id}`;
     };
 
     summary.appendChild(heading);

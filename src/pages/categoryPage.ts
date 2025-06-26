@@ -8,12 +8,12 @@ import type { PageStructure } from "../api/types.ts";
 export async function renderCategoryPage(categoryName: string): Promise<PageStructure> {
     const products = await getProductsByCategory(categoryName);
 
+    let selectedBrand: string | null = null;
 
     const main = document.createElement('main');
     main.className = 'flex-grow py-8';
 
     const sortAndRender = (sortType: 'asc' | 'desc') => {
-
         let sorted = [...products];
         if (sortType === 'asc') {
             sorted.sort((a, b) => a.price - b.price);
@@ -58,9 +58,8 @@ export async function renderCategoryPage(categoryName: string): Promise<PageStru
 
             <div class="flex flex-col md:flex-row">
                 <aside class="hidden md:block shrink-0 w-[295px] mr-8" id="filter-sidebar-wrapper">
-    ${renderFilterSidebar(products, 'asc')}
-</aside>
-
+                    ${renderFilterSidebar(products, 'asc')}
+                </aside>
 
                 <div class="flex-1">
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="product-grid">
@@ -71,49 +70,18 @@ export async function renderCategoryPage(categoryName: string): Promise<PageStru
         </div>
     `;
 
-    setTimeout(() => {
-        const ascBtn = main.querySelector('#sort-asc') as HTMLButtonElement;
-        const descBtn = main.querySelector('#sort-desc') as HTMLButtonElement;
-        ascBtn?.addEventListener('click', () => sortAndRender('asc'));
-        descBtn?.addEventListener('click', () => sortAndRender('desc'));
-
-        const filterToggleBtn = main.querySelector('#filter-toggle') as HTMLButtonElement;
-        const sidebar = main.querySelector('#filter-sidebar') as HTMLElement;
-        if (filterToggleBtn && sidebar) {
-            filterToggleBtn.addEventListener('click', () => {
-                sidebar.classList.toggle('hidden');
-            });
-        }
-        const sidebarWrapper = main.querySelector('#filter-sidebar-wrapper') as HTMLElement;
-        const closeBtn = main.querySelector('#filter-close') as HTMLElement;
-
-        if (filterToggleBtn && sidebarWrapper) {
-            filterToggleBtn.addEventListener('click', () => {
-                sidebarWrapper.classList.toggle('hidden');
-            });
-        }
-
-        if (closeBtn && sidebarWrapper) {
-            closeBtn.addEventListener('click', () => {
-                sidebarWrapper.classList.add('hidden');
-            });
-        }
-
-    });
-
-    let selectedBrand: string | null = null;
-
     const applyFilter = () => {
-        const min = parseFloat((main.querySelector('#price-min') as HTMLInputElement)?.value || '10');
-        const max = parseFloat((main.querySelector('#price-max') as HTMLInputElement)?.value || '2000');
+        const min = parseFloat((main.querySelector('#price-min') as HTMLInputElement)?.value || '0');
+        const max = parseFloat((main.querySelector('#price-max') as HTMLInputElement)?.value || `${Number.MAX_VALUE}`);
 
         let filtered = [...products];
 
         if (selectedBrand) {
-            filtered = filtered.filter(p => p.brand === selectedBrand);
+            filtered = filtered.filter(p => p.brand.trim() === selectedBrand?.trim());
         }
 
         filtered = filtered.filter(p => p.price >= min && p.price <= max);
+
         const productGrid = main.querySelector('#product-grid');
         if (productGrid) productGrid.innerHTML = filtered.map(renderProductCard).join('');
     };
@@ -127,47 +95,63 @@ export async function renderCategoryPage(categoryName: string): Promise<PageStru
 
         const brandButtons = main.querySelectorAll('.brand-filter');
         brandButtons.forEach(btn => btn.classList.remove('font-bold', 'text-black'));
-        (main.querySelector('#price-min') as HTMLInputElement).value = '10';
-        (main.querySelector('#price-max') as HTMLInputElement).value = '2000';
+        (main.querySelector('#price-min') as HTMLInputElement).value = '0';
+        (main.querySelector('#price-max') as HTMLInputElement).value = `${Number.MAX_VALUE}`;
     };
 
-    main.querySelectorAll('.brand-filter').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const brand = (e.target as HTMLElement).dataset.brand!;
-            selectedBrand = selectedBrand === brand ? null : brand;
+    setTimeout(() => {
+        const ascBtn = main.querySelector('#sort-asc') as HTMLButtonElement;
+        const descBtn = main.querySelector('#sort-desc') as HTMLButtonElement;
+        ascBtn?.addEventListener('click', () => sortAndRender('asc'));
+        descBtn?.addEventListener('click', () => sortAndRender('desc'));
 
-            main.querySelectorAll('.brand-filter').forEach(el => {
-                el.classList.remove('font-bold', 'text-black');
-                el.classList.add('text-gray-500');
-            });
+        const filterToggleBtn = main.querySelector('#filter-toggle') as HTMLButtonElement;
+        const sidebarWrapper = main.querySelector('#filter-sidebar-wrapper') as HTMLElement;
+        const closeBtn = main.querySelector('#filter-close') as HTMLElement;
 
-            if (selectedBrand) {
-                (e.target as HTMLElement).classList.add('font-bold', 'text-black');
-                (e.target as HTMLElement).classList.remove('text-gray-500');
+        filterToggleBtn?.addEventListener('click', () => {
+            sidebarWrapper.classList.toggle('hidden');
+        });
+
+        closeBtn?.addEventListener('click', () => {
+            sidebarWrapper.classList.add('hidden');
+        });
+
+        const applyBtn = main.querySelector('#apply-filter') as HTMLButtonElement;
+        const resetBtn = main.querySelector('#reset-filter') as HTMLButtonElement;
+
+        applyBtn?.addEventListener('click', () => {
+            applyFilter();
+            if (window.innerWidth < 768) {
+                sidebarWrapper.classList.add('hidden');
             }
         });
+
+        resetBtn?.addEventListener('click', () => {
+            resetFilter();
+            if (window.innerWidth < 768) {
+                sidebarWrapper.classList.add('hidden');
+            }
+        });
+
+        main.querySelectorAll('.brand-filter').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const brand = (e.target as HTMLElement).dataset.brand!;
+                selectedBrand = selectedBrand === brand ? null : brand;
+
+                main.querySelectorAll('.brand-filter').forEach(el => {
+                    el.classList.remove('font-bold', 'text-black');
+                    el.classList.add('text-gray-500');
+                });
+
+                if (selectedBrand) {
+                    (e.target as HTMLElement).classList.add('font-bold', 'text-black');
+                    (e.target as HTMLElement).classList.remove('text-gray-500');
+                }
+            });
+        });
     });
-
-    main.querySelector('button.bg-black')?.addEventListener('click', () => {
-        applyFilter();
-        if (window.innerWidth < 768) {
-            main.querySelector('#filter-sidebar')?.classList.add('hidden');
-        }
-    });
-    main.querySelector('button.bg-#F2F0F1')?.addEventListener('click', () => {
-        resetFilter();
-        if (window.innerWidth < 768) {
-            main.querySelector('#filter-sidebar')?.classList.add('hidden');
-        }
-    });
-
-    main.querySelector('#close-filter')?.addEventListener('click', () => {
-        main.querySelector('#filter-sidebar')?.classList.add('hidden');
-    });
-
-
-
 
     return {
         header: renderHeader(),

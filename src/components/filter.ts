@@ -55,11 +55,11 @@ export function renderFilterSidebar(products: Product[], activeSort: 'asc' | 'de
             </div>
 
             <div class="space-y-4">
-                <button
+                <button id="apply-filter"
                     class="bg-black text-white text-[14px] font-[Rubik] font-medium py-4 px-14 rounded-full w-full">
                     Apply Filter
                 </button>
-                <button
+                <button id="reset-filter"
                     class="bg-[#F2F0F1] text-black text-[14px] font-[Rubik] font-medium py-4 px-14 rounded-full w-full">
                     Reset Filter
                 </button>
